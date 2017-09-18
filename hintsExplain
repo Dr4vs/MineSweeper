@@ -1,0 +1,33 @@
+How I solved the problem. Some explains:
+
+setMineFiled don't need many explain. I divide parts between new line and check how many signs have.
+If numbers in each part is the same and value is correcly. Mine filed is setted.
+
+
+getHintField
+
+    // We have 9 currently possible position in our game
+		// 4 corners when we have 3 adjacent fields
+		// 4 sides when we have 5 adjacent fields
+		// 1 center when must check all around fields
+		//
+		//                                 _
+		//  x=0 |_|                 x max | |
+		//
+		//       _					       _
+		//  y=0  _|                 y max |_
+		//
+		//											_
+		// x=0 & y=0  _|            x=max & y=max  |
+		//
+		//									     _
+		// x=0 & y=max |_           x=max & y=0   |
+		//
+		//   	    _
+		//   else  |_|
+		//
+
+We check the field after the field and on finished we return value.
+
+After I finished this exercise, I realized maybe better will be with Stream but no.
+And this is why I have 2 solutions. Maybe with longer value.
