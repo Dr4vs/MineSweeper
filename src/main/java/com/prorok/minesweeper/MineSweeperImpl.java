@@ -43,144 +43,179 @@ public class MineSweeperImpl implements MineSweeper {
 		}				
 		
 		StringBuilder sb = new StringBuilder();
-		StringBuilder toCheck = new StringBuilder();
-		int counter = 0;
-		
-		
 		for(int x=0;x<elements.length;x++) {
 			for(int y=0;y<elements[x].length;y++) {	
+			    StringBuilder toCheck = new StringBuilder();
+		        int counter = 0;
 				if("*".equals(elements[x][y])) {
 					sb.append(elements[x][y]);
 				}else
-				  //Left upper corner
 				if(x==0 && y==0) {
-					toCheck.append(elements[x][y+1]);
-					toCheck.append(elements[x+1][y]);
-					toCheck.append(elements[x+1][y+1]);
-					for(int i=0;i<toCheck.length();i++) {
-						if(toCheck.charAt(i) == '*') {counter++;}
-						}
-						sb.append(counter);
-						counter = 0;
-						toCheck.replace(0,toCheck.length(),"");
+					    leftUpperCorner(elements, sb, toCheck, counter, x, y);
+					    clear(toCheck,counter); 
 				}else
-				  //Left bottom corner
 				if(x==0 && y==elements[x].length-1) {
-					toCheck.append(elements[x][elements[x].length-2]);
-					toCheck.append(elements[x+1][elements[x].length-2]);
-					toCheck.append(elements[x+1][elements[x].length-1]);
-					for(int i=0;i<toCheck.length();i++) {
-						if(toCheck.charAt(i) == '*') {counter++;}
-					}
-						sb.append(counter);
-						sb.append("\\n");
-						counter = 0;
-						toCheck.replace(0,toCheck.length(),"");
+					leftBottomCorner(elements, sb, x, toCheck, counter);
+						clear(toCheck,counter);   
 				}else			
-				  //Right upper corner
 				if(x==elements.length-1 && y==0) {
-					toCheck.append(elements[elements.length-2][y]);
-					toCheck.append(elements[elements.length-1][y+1]);
-					toCheck.append(elements[elements.length-2][y+1]);
-					for(int i=0;i<toCheck.length();i++) {
-						if(toCheck.charAt(i) == '*') {counter++;}	
-						}
-						sb.append(counter);
-						counter = 0;
-						 toCheck.replace(0,toCheck.length(),"");		
+					rightUpperCorner(elements, sb, y, toCheck, counter);
+						clear(toCheck,counter);   		
 				}else
-				  //Right bottom corner
 				if(x==elements.length-1 && y==elements[x].length-1) {
-					toCheck.append(elements[elements.length-2][elements[x].length-1]);
-					toCheck.append(elements[elements.length-2][elements[x].length-2]);
-					toCheck.append(elements[elements.length-1][elements[x].length-2]);
-					for(int i=0;i<toCheck.length();i++) {
-						if(toCheck.charAt(i) == '*') {counter++;}
-					}
-						sb.append(counter);
-						counter = 0;
-						 toCheck.replace(0,toCheck.length(),"");
-						
+					rightBottomCorner(elements, sb, x, toCheck, counter);
+						clear(toCheck,counter);   		
 				}else
-				  //Upper side
 				if(x==0) {
-					toCheck.append(elements[x][y-1]);
-					toCheck.append(elements[x][y+1]);
-					toCheck.append(elements[x+1][y-1]);
-					toCheck.append(elements[x+1][y]);
-					toCheck.append(elements[x+1][y+1]);
-					for(int i=0;i<toCheck.length();i++) {
-						if(toCheck.charAt(i) == '*') {counter++;}
-					}
-						sb.append(counter);
-						counter = 0;
-						 toCheck.replace(0,toCheck.length(),"");
+					 upperSide(elements, sb, x, y, toCheck, counter);
+						clear(toCheck,counter);   
 				}else
-				  //Left side
 				if(y==0) {
-					toCheck.append(elements[x-1][y]);
-					toCheck.append(elements[x+1][y]);
-					toCheck.append(elements[x-1][y+1]);
-					toCheck.append(elements[x][y+1]);
-					toCheck.append(elements[x+1][y+1]);
-					for(int i=0;i<toCheck.length();i++) {
-						if(toCheck.charAt(i) == '*') {counter++;}
-					}
-						sb.append(counter);
-						counter = 0;
-						 toCheck.replace(0,toCheck.length(),"");			
+					 leftSide(elements, sb, x, y, toCheck, counter);
+						clear(toCheck,counter);   			
 				}else
-				  //Bottom side
 				if(x==elements.length-1) {
-						toCheck.append(elements[elements.length-1][y-1]);
-						toCheck.append(elements[elements.length-1][y+1]);
-						toCheck.append(elements[elements.length-2][y-1]);
-						toCheck.append(elements[elements.length-2][y]);
-						toCheck.append(elements[elements.length-2][y+1]);
-						for(int i=0;i<toCheck.length();i++) {
-							if(toCheck.charAt(i) == '*') {counter++;}
-							}
-							sb.append(counter);
-							counter = 0;
-							 toCheck.replace(0,toCheck.length(),"");
+						 bottomSide(elements, sb, y, toCheck, counter);
+							clear(toCheck,counter);  
 				}else
-				  //Right side
 				if(y==elements[x].length-1) {
-					toCheck.append(elements[x-1][elements[x].length-1]);
-					toCheck.append(elements[x+1][elements[x].length-1]);
-					toCheck.append(elements[x-1][elements[x].length-2]);
-					toCheck.append(elements[x][elements[x].length-2]);
-					toCheck.append(elements[x+1][elements[x].length-2]);
-					for(int i=0;i<toCheck.length();i++) {
-						if(toCheck.charAt(i) == '*') {counter++;}
-						}
-						sb.append(counter);
-						sb.append("\\n");
-						counter = 0;
-						 toCheck.replace(0,toCheck.length(),"");
+					rightSide(elements, sb, x, toCheck, counter);
+						clear(toCheck,counter);   
 				}
-				//Around the field
 				else {
-					toCheck.append(elements[x-1][y-1]);
-					toCheck.append(elements[x-1][y]);	
-					toCheck.append(elements[x-1][y+1]);
-					toCheck.append(elements[x][y-1]);
-					toCheck.append(elements[x][y+1]);
-					toCheck.append(elements[x+1][y-1]);
-					toCheck.append(elements[x+1][y]);
-					toCheck.append(elements[x+1][y+1]);
-					for(int i=0;i<toCheck.length();i++) {
-						if(toCheck.charAt(i) == '*') {counter++;}
-						}
-						sb.append(counter);
-						counter = 0;
-						 toCheck.replace(0,toCheck.length(),"");				
+					around(elements, sb, x, y, toCheck, counter);
+						clear(toCheck,counter);				
 				}
 			}
 		}	
 		return sb.toString();
 	}
-	public String getHintField2() throws IllegalStateException {
+
+  private void around(String[][] elements, StringBuilder sb, int x, int y, StringBuilder toCheck,
+      int counter) {
+    toCheck.append(elements[x-1][y-1]);
+    toCheck.append(elements[x-1][y]);	
+    toCheck.append(elements[x-1][y+1]);
+    toCheck.append(elements[x][y-1]);
+    toCheck.append(elements[x][y+1]);
+    toCheck.append(elements[x+1][y-1]);
+    toCheck.append(elements[x+1][y]);
+    toCheck.append(elements[x+1][y+1]);
+    for(int i=0;i<toCheck.length();i++) {
+    	if(toCheck.charAt(i) == '*') {counter++;}
+    	}
+    	sb.append(counter);
+  }
+
+  private void rightSide(String[][] elements, StringBuilder sb, int x, StringBuilder toCheck,
+      int counter) {
+    toCheck.append(elements[x-1][elements[x].length-1]);
+    toCheck.append(elements[x+1][elements[x].length-1]);
+    toCheck.append(elements[x-1][elements[x].length-2]);
+    toCheck.append(elements[x][elements[x].length-2]);
+    toCheck.append(elements[x+1][elements[x].length-2]);
+    for(int i=0;i<toCheck.length();i++) {
+    	if(toCheck.charAt(i) == '*') {counter++;}
+    	}
+    	sb.append(counter);
+    	sb.append("\\n");
+  }
+
+  private void bottomSide(String[][] elements, StringBuilder sb, int y, StringBuilder toCheck,
+      int counter) {
+    toCheck.append(elements[elements.length-1][y-1]);
+    toCheck.append(elements[elements.length-1][y+1]);
+    toCheck.append(elements[elements.length-2][y-1]);
+    toCheck.append(elements[elements.length-2][y]);
+    toCheck.append(elements[elements.length-2][y+1]);
+    for(int i=0;i<toCheck.length();i++) {
+    	if(toCheck.charAt(i) == '*') {counter++;}
+    	}
+    	sb.append(counter);
+  }
+
+  private void leftSide(String[][] elements, StringBuilder sb, int x, int y, StringBuilder toCheck,
+      int counter) {
+    toCheck.append(elements[x-1][y]);
+    toCheck.append(elements[x+1][y]);
+    toCheck.append(elements[x-1][y+1]);
+    toCheck.append(elements[x][y+1]);
+    toCheck.append(elements[x+1][y+1]);
+    for(int i=0;i<toCheck.length();i++) {
+    	if(toCheck.charAt(i) == '*') {counter++;}
+    }
+    	sb.append(counter);
+  }
+
+  private void upperSide(String[][] elements, StringBuilder sb, int x, int y, StringBuilder toCheck,
+      int counter) {
+    toCheck.append(elements[x][y-1]);
+    toCheck.append(elements[x][y+1]);
+    toCheck.append(elements[x+1][y-1]);
+    toCheck.append(elements[x+1][y]);
+    toCheck.append(elements[x+1][y+1]);
+    for(int i=0;i<toCheck.length();i++) {
+    	if(toCheck.charAt(i) == '*') {counter++;}
+    }
+    	sb.append(counter);
+  }
+
+  private void rightBottomCorner(String[][] elements, StringBuilder sb, int x, StringBuilder toCheck,
+      int counter) {
+    toCheck.append(elements[elements.length-2][elements[x].length-1]);
+    toCheck.append(elements[elements.length-2][elements[x].length-2]);
+    toCheck.append(elements[elements.length-1][elements[x].length-2]);
+    for(int i=0;i<toCheck.length();i++) {
+    	if(toCheck.charAt(i) == '*') {counter++;}
+    }
+    	sb.append(counter);
+  }
+
+  private void rightUpperCorner(String[][] elements, StringBuilder sb, int y, StringBuilder toCheck,
+      int counter) {
+    toCheck.append(elements[elements.length-2][y]);
+    toCheck.append(elements[elements.length-1][y+1]);
+    toCheck.append(elements[elements.length-2][y+1]);
+    for(int i=0;i<toCheck.length();i++) {
+    	if(toCheck.charAt(i) == '*') {counter++;}	
+    	}
+    	sb.append(counter);
+  }
+
+  private void leftBottomCorner(String[][] elements, StringBuilder sb, int x, StringBuilder toCheck,
+      int counter) {
+    toCheck.append(elements[x][elements[x].length-2]);
+    toCheck.append(elements[x+1][elements[x].length-2]);
+    toCheck.append(elements[x+1][elements[x].length-1]);
+    for(int i=0;i<toCheck.length();i++) {
+    	if(toCheck.charAt(i) == '*') {counter++;}
+    }
+    	sb.append(counter);
+    	sb.append("\\n");
+  }
+
+  private void clear(StringBuilder toCheck, int counter) {
+    counter = 0;
+    toCheck.replace(0,toCheck.length(),"");
+  }
+
+  private void leftUpperCorner(String[][] elements, StringBuilder sb, StringBuilder toCheck,
+      int counter, int x, int y) {
+    toCheck.append(elements[x][y+1]);
+    toCheck.append(elements[x+1][y]);
+    toCheck.append(elements[x+1][y+1]);
+    for(int i=0;i<toCheck.length();i++) {
+    	if(toCheck.charAt(i) == '*') {counter++;}
+    	}
+    	sb.append(counter);
+  }
+  
+  
+  
+  
+  
+  
+public String getHintField2() throws IllegalStateException {
       String[] rows = settedMineField.split("\n");
       String[][] elements = new String[rows.length][rows[1].length()];
       for(int i=0;i<rows.length;i++) {
@@ -199,10 +234,8 @@ public class MineSweeperImpl implements MineSweeper {
               }else
               if(x==0 && y==0) {
                     long count = Stream.of(elements[x][y+1],elements[x+1][y],elements[x+1][y+1])
-                    .filter(e->"*".equals(e)).count();
-                    
+                    .filter(e->"*".equals(e)).count();                 
                       sb.append(count);
-
               }else
               if(x==0 && y==elements[x].length-1) {
                 long count = Stream.of(elements[x][elements[x].length-2],elements[x+1][elements[x].length-2],elements[x+1][elements[x].length-1])
